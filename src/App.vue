@@ -1,60 +1,171 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
+  <v-app id="inspire">
+
+
+    <v-navigation-drawer
+            v-model="drawer"
+            :clipped="$vuetify.breakpoint.lgAndUp"
+            app
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+      <v-list dense>
+        <template v-for="item in items">
+          <v-row
+                  v-if="item.heading"
+                  :key="item.heading"
+                  align="center"
+          >
+            <v-col cols="6">
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-col>
+            <v-col
+                    cols="6"
+                    class="text-center"
+            >
+              <a
+                      href="#!"
+                      class="body-2 black--text"
+              >EDIT</a>
+            </v-col>
+          </v-row>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+          <v-list-group
+                  v-else-if="item.children"
+                  :key="item.text"
+                  v-model="item.model"
+                  :prepend-icon="item.model ? item.icon : item['icon-alt']"
+                  append-icon=""
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>
+                    {{ item.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item
+                    v-for="(child, i) in item.children"
+                    :key="i"
+                    link
+            >
+              <v-list-item-action v-if="child.icon">
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title @click="navigateTo(child.route)">
+                    {{ child.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
 
-      <v-spacer></v-spacer>
+          <v-list-item
+                  v-else
+                  :key="item.text"
+                  link
+          >
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title @click="navigateTo(item.route)">
+                {{ item.text }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+    <v-app-bar
+            :clipped-left="$vuetify.breakpoint.lgAndUp"
+            app
+            color="blue darken-3"
+            dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+
+      <!-- App name -->
+      <v-toolbar-title
+              style="width: 300px"
+              class="ml-0 pl-4"
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <span class="hidden-sm-and-down">{{ appName }}</span>
+      </v-toolbar-title>
+
+      <!-- search -->
+      <v-form @submit.prevent="onSearch">
+        <v-text-field
+                v-model="query"
+                flat
+                solo-inverted
+                hide-details
+                prepend-inner-icon="mdi-magnify"
+                label="Search"
+                class="hidden-sm-and-down"
+        />
+      </v-form>
+
+      <v-spacer />
+      <v-btn icon>
+        <v-icon>mdi-apps</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>mdi-bell</v-icon>
       </v-btn>
     </v-app-bar>
 
+
+
     <v-content>
-      <HelloWorld/>
+      <v-container
+              class="fill-height"
+              fluid
+      >
+
+        <v-row
+                align="center"
+                justify="center"
+        >
+          <router-view></router-view>
+        </v-row>
+      </v-container>
     </v-content>
+
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+  import {items} from "./layout/menu";
 
-export default {
-  name: 'App',
+  export default {
+    props: {
+      source: String,
+    },
+      computed: {
+        appName() {
+          return process.env.VUE_APP_NAME;
+        }
+      },
+    data: () => ({
+      query: '',
+      dialog: false,
+      drawer: null,
+      items: items,
+    }),
+    methods: {
+      onSearch() {
+        console.log('search');
+        console.log(this.query);
+      },
+      navigateTo(name) {
+        if (this.$route.name === name) {
+          return;
+        }
 
-  components: {
-    HelloWorld,
-  },
-
-  data: () => ({
-    //
-  }),
-};
+        this.$router.push({ name })
+      }
+    }
+  }
 </script>
