@@ -11,6 +11,7 @@ import Feedback from "../views/Feedback";
 import Help from "../views/Help";
 import Role from "../views/Role";
 import Storage from "../views/Storage";
+import AccountDetail from "../views/AccountDetail";
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,11 @@ const routes = [
     path: '/accounts',
     name: 'Account',
     component: Account
+  },
+  {
+    path: '/accounts/:id',
+    name: 'AccountDetail',
+    component: AccountDetail,
   },
   {
     path: '/admins',
