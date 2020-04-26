@@ -50,7 +50,7 @@ class BaseRepository {
     }
 
     update(id, data = {}) {
-        return this.axios.put(id, data);
+        return this.axios.put(`${id}`, data);
     }
 
     delete(id) {
