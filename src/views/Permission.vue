@@ -1,14 +1,16 @@
 <template>
-  <div class="user">
-      permissions
+  <div class="permission">
+      <permission-list></permission-list>
   </div>
 </template>
 
 <script>
 
+import PermissionList from "../components/Permissions/PermissionList";
 export default {
-  name: 'Account',
+  name: 'Permission',
   components: {
+    PermissionList
   }
 }
 </script>
