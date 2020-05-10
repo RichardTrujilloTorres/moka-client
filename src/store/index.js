@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Users from "./users.store";
 import Roles from "./roles.store";
+import Permissions from "./permissions.store";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -15,5 +16,6 @@ export default new Vuex.Store({
   modules: {
     user: Users,
     role: Roles,
+    permission: Permissions,
   }
 })
