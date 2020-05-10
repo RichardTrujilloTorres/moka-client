@@ -18,7 +18,11 @@ const Roles = {
     actions: {
         getRoles(context, params) {
             return context.state.repository.index(params)
-                .then(res => context.commit('setRoles', res.data.data));
+                .then(res => {
+                    context.commit('setRoles', res.data.data);
+
+                    return res.data
+                });
         },
         getRole(context, id) {
             return context.state.repository.show(id)

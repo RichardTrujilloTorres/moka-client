@@ -18,7 +18,11 @@ const Users = {
     actions: {
         getUsers(context, params) {
             return context.state.repository.index(params)
-                .then(res => context.commit('setUsers', res.data.data));
+                .then(res => {
+                    context.commit('setUsers', res.data.data);
+
+                    return res.data
+                });
         },
         getUser(context, id) {
             return context.state.repository.show(id)
