@@ -13,6 +13,7 @@ import Role from "../views/Role";
 import Storage from "../views/Storage";
 import AccountDetail from "../views/AccountDetail";
 import RoleDetail from "../views/Role/RoleDetail";
+import PermissionDetail from "../views/Permission/PermissionDetail";
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,11 @@ const routes = [
     path: '/permissions',
     name: 'Permission',
     component: Permission
+  },
+  {
+    path: '/permissions/:id',
+    name: 'PermissionDetail',
+    component: PermissionDetail
   },
   {
     path: '/cloud',
