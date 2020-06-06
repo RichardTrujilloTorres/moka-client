@@ -13,6 +13,7 @@
 
 <script>
   import List from "../Common/List";
+  import {MessageService} from "../../resources/services/message.service";
   export default {
     name: 'UserList',
       components: {List},
@@ -37,7 +38,8 @@
           this.$router.push({name: 'AccountDetail', params: {id}})
       },
       onCreate() {
-        console.log('todo: create on user list')
+          const messageService = new MessageService(this)
+          messageService.info('You are about to create a new user')
       },
     },
     data: () => ({
