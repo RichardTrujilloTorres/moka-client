@@ -30,5 +30,7 @@
         },
         data: () => ({
         }),
+        methods: {
+        },
     }
 </script>
