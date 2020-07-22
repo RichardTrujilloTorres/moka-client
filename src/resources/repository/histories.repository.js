@@ -9,8 +9,11 @@ class HistoriesRepository extends BaseRepository{
         );
     }
 
-    forResource(name, params = {page: 1, per_page: 10}) {
-        return this.axios.get(`/${name}`, { params });
+    forResource(options) {
+        let {resource, params} = options;
+        return this.axios.get(
+            `/${resource}`,
+            { params:  params !== null ? params : {page: 1, per_page: 5}});
     }
 }
 

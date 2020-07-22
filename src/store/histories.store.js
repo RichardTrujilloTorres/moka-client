@@ -13,8 +13,7 @@ const Histories = {
     },
     actions: {
         getHistories(context, options) {
-            let {resource, ...params} = options;
-            return context.state.repository.forResource(resource, params)
+            return context.state.repository.forResource(options)
                 .then(res => {
                     context.commit('setHistories', res.data.data);
 
