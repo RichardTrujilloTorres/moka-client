@@ -5,6 +5,7 @@ import Roles from "./roles.store";
 import Permissions from "./permissions.store";
 import Admins from "./admins.store";
 import Histories from "./histories.store";
+import Storages from "./storages.store";
 
 Vue.use(Vuex);
 
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     permission: Permissions,
     admin: Admins,
     histories: Histories,
+    storage: Storages,
   }
 })
