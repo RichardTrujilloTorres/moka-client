@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$eventBus = new Vue();
 
-new Vue({
+export const app = new Vue({
   router,
   store,
   vuetify,
