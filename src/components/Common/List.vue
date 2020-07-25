@@ -47,7 +47,7 @@
 
       </v-col>
 
-      <v-btn @click="onCreate"
+      <v-btn v-if="!noActions" @click="onCreate"
               absolute
               dark
               fab
