@@ -8,6 +8,10 @@ class StoragesRepository extends BaseRepository{
             props
         );
     }
+
+    regenerate() {
+        return this.axios.post(`/regenerate`);
+    }
 }
 
 export default StoragesRepository
