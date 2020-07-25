@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {types} from "../interceptors/types";
 
 class BaseRepository {
     interceptors = [];
@@ -7,7 +8,7 @@ class BaseRepository {
         this.baseUrl = baseURL;
         this.axios = axios.create({
             baseURL,
-            timeout: 1000,
+            timeout: 10000,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             },
@@ -29,7 +30,32 @@ class BaseRepository {
     }
 
     setInterceptor(interceptor) {
-        this.interceptors[interceptor.name] = this.axios.interceptors.request.use(interceptor.config, interceptor.error);
+        switch (interceptor.type) {
+            case types.request:
+                this.interceptors[interceptor.name] = this.axios.interceptors.request.use(
+                    interceptor.config,
+                    interceptor.error
+                );
+            break;
+
+            case types.response:
+                this.interceptors[interceptor.name] = this.axios.interceptors.response.use(
+                    interceptor.response,
+                    interceptor.error
+                );
+                break;
+
+            case types.complete:
+                this.interceptors[`${interceptor.name}-request`] = this.axios.interceptors.request.use(
+                    interceptor.request,
+                    interceptor.error
+                );
+                this.interceptors[`${interceptor.name}-response`] = this.axios.interceptors.response.use(
+                    interceptor.response,
+                    interceptor.error
+                );
+                break;
+        }
     }
 
     unsetInterceptor(interceptor) {
