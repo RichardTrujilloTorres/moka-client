@@ -1,10 +1,13 @@
 import StoragesRepository from "../resources/repository/storages.repository";
+import loadingInterceptor from "../resources/interceptors/loading.interceptor";
 
 const Storages = {
     namespaced: true,
     state: {
         storages: [],
-        repository: new StoragesRepository(),
+        repository: new StoragesRepository({
+            interceptors: [loadingInterceptor],
+        }),
     },
     mutations: {
         setStorages(state, payload) {
@@ -20,6 +23,12 @@ const Storages = {
                     return res.data
                 });
         },
+        regenerate(context) {
+            return context.state.repository.regenerate()
+                .then(res => {
+                    return res.data
+                });
+        }
     },
     getters: {
         storages(state) {
