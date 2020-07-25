@@ -14,14 +14,14 @@
                 <thead>
                 <tr >
                   <th v-for="field in fields" :key="field.name" class="text-left">{{ field.name }}</th>
-                  <th class="text-right">Actions</th>
+                  <th v-if="!noActions" class="text-right">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <tr v-for="item in items" :key="item.key">
                   <td v-for="field in fields" :key="field.name">{{ item[field.key] }}</td>
-                  <th>
+                  <th v-if="!noActions">
                     <v-btn @click="onEdit(item.id)" class="ma-0" text color="blue">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -87,6 +87,10 @@
         type: String,
         required: true,
       },
+      noActions: {
+        type: Boolean,
+        required: false,
+      }
     },
     name: 'List',
     components: {Paginator},
